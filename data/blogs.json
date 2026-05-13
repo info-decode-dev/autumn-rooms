@@ -1,0 +1,22 @@
+[
+  {
+    "id": "blog-1",
+    "title": "A Guide to Scandinavian Minimalism in Student Housing",
+    "excerpt": "Discover how clean lines and functional design can improve your study environment.",
+    "author": "Emma Collins",
+    "date": "2026-05-10",
+    "readTime": "5 min read",
+    "image": "/images/blogs/minimalism.jpg",
+    "tags": ["Design", "Lifestyle"]
+  },
+  {
+    "id": "blog-2",
+    "title": "Top 5 Neighbourhoods for International Students in London",
+    "excerpt": "From Camden to Greenwich, explore the best areas to live and study in the UK capital.",
+    "author": "James Peterson",
+    "date": "2026-05-12",
+    "readTime": "8 min read",
+    "image": "/images/blogs/london-guide.jpg",
+    "tags": ["City Guide", "UK"]
+  }
+]

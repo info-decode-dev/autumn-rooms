@@ -1,0 +1,18 @@
+[
+  {
+    "id": "test-1",
+    "name": "Sarah Jenkins",
+    "university": "University College London",
+    "avatar": "/images/avatars/sarah.jpg",
+    "text": "Finding accommodation with this platform was incredibly smooth. The rooms look exactly like the pictures, and the support team was very helpful.",
+    "rating": 5
+  },
+  {
+    "id": "test-2",
+    "name": "Michael Chang",
+    "university": "Technical University of Munich",
+    "avatar": "/images/avatars/michael.jpg",
+    "text": "The premium feel of the platform translates perfectly to the actual living spaces. Best decision I made for my study abroad.",
+    "rating": 5
+  }
+]

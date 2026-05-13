@@ -1,0 +1,26 @@
+[
+  {
+    "code": "UK",
+    "name": "United Kingdom",
+    "currency": "GBP",
+    "currencySymbol": "£",
+    "supportPhone": "+44 20 7946 0958",
+    "popularCities": ["London", "Manchester", "Edinburgh"]
+  },
+  {
+    "code": "DE",
+    "name": "Germany",
+    "currency": "EUR",
+    "currencySymbol": "€",
+    "supportPhone": "+49 30 1234 5678",
+    "popularCities": ["Berlin", "Munich", "Frankfurt"]
+  },
+  {
+    "code": "AU",
+    "name": "Australia",
+    "currency": "AUD",
+    "currencySymbol": "$",
+    "supportPhone": "+61 2 1234 5678",
+    "popularCities": ["Sydney", "Melbourne", "Brisbane"]
+  }
+]

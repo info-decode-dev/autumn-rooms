@@ -1,0 +1,50 @@
+[
+  {
+    "id": "prop-1",
+    "title": "The Glasshouse Student Living",
+    "country": "United Kingdom",
+    "city": "London",
+    "price": "£350/week",
+    "rating": 4.8,
+    "availableBeds": 5,
+    "tags": ["Premium", "Trending"],
+    "images": [
+      "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1502672260266-1c1de2424087?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+    ],
+    "amenities": ["Gym", "Cinema Room", "Study Areas", "24/7 Security"],
+    "isBooked": false
+  },
+  {
+    "id": "prop-2",
+    "title": "Nordic Minimalist Suites",
+    "country": "Germany",
+    "city": "Berlin",
+    "price": "€280/week",
+    "rating": 4.9,
+    "availableBeds": 0,
+    "tags": ["Hot Listing", "Verified"],
+    "images": [
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1484154218962-a197022b5858?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+    ],
+    "amenities": ["Rooftop Terrace", "Bike Storage", "Fast WiFi"],
+    "isBooked": true
+  },
+  {
+    "id": "prop-3",
+    "title": "Aura Residence",
+    "country": "Australia",
+    "city": "Sydney",
+    "price": "$450/week",
+    "rating": 4.7,
+    "availableBeds": 12,
+    "tags": ["Premium"],
+    "images": [
+      "https://images.unsplash.com/photo-1515263487990-61b07816b324?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1554995207-c18c203602cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+    ],
+    "amenities": ["Pool", "Gym", "BBQ Area", "Study Lounges"],
+    "isBooked": false
+  }
+]
