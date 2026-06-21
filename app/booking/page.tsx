@@ -7,6 +7,9 @@ import {
   Bath, Utensils, BookOpen, Monitor
 } from "lucide-react";
 import Link from "next/link";
+import { getPriceDisplay } from "@/lib/pricing";
+
+const UK_COUNTRY = "United Kingdom";
 
 const getAmenityIcon = (am: string) => {
   const lower = am.toLowerCase();
@@ -35,7 +38,7 @@ const buildingData = [
         type: "Studio",
         amenities: ["Private Kitchen", "En-suite Bathroom", "Double Bed"],
         spaces: [
-          { id: "101-A", label: "Entire Studio", isOccupied: false, price: "£420/week" }
+          { id: "101-A", label: "Entire Studio", isOccupied: false, priceAmount: 1820 }
         ]
       },
       {
@@ -45,7 +48,7 @@ const buildingData = [
         amenities: ["En-suite Bathroom", "Study Desk", "Single Bed"],
         spaces: [
           { id: "102-A", label: "Bed A", isOccupied: true, occupant: { age: 21, country: "United Kingdom", avatarColor: "bg-blue-100 text-blue-600" } },
-          { id: "102-B", label: "Bed B", isOccupied: false, price: "£280/week" }
+          { id: "102-B", label: "Bed B", isOccupied: false, priceAmount: 1213 }
         ]
       }
     ]
@@ -70,8 +73,8 @@ const buildingData = [
         amenities: ["En-suite Bathroom", "Shared Kitchen", "Single Bed"],
         spaces: [
           { id: "202-A", label: "Bed A", isOccupied: true, occupant: { age: 19, country: "Australia", avatarColor: "bg-green-100 text-green-600" } },
-          { id: "202-B", label: "Bed B", isOccupied: false, price: "£240/week" },
-          { id: "202-C", label: "Bed C", isOccupied: false, price: "£240/week" }
+          { id: "202-B", label: "Bed B", isOccupied: false, priceAmount: 1040 },
+          { id: "202-C", label: "Bed C", isOccupied: false, priceAmount: 1040 }
         ]
       }
     ]
@@ -112,6 +115,11 @@ export default function BookingPage() {
       });
     });
   }
+
+  const selectedPriceDisplay =
+    selectedSpaceDetails?.priceAmount != null
+      ? getPriceDisplay(selectedSpaceDetails.priceAmount, UK_COUNTRY)
+      : null;
 
   return (
     <div className="min-h-screen pt-32 pb-24 bg-[var(--background)]">
@@ -222,6 +230,10 @@ export default function BookingPage() {
                             );
                           }
                           
+                          const priceDisplay = space.priceAmount != null
+                            ? getPriceDisplay(space.priceAmount, UK_COUNTRY)
+                            : null;
+
                           return (
                             <div 
                               key={space.id}
@@ -234,7 +246,12 @@ export default function BookingPage() {
                                 </div>
                                 <div>
                                   <h4 className="font-bold text-[var(--foreground)] text-lg">{space.label}</h4>
-                                  <p className="text-sm font-bold text-[var(--foreground)]/80">{space.price}</p>
+                                  {priceDisplay && (
+                                    <p className="text-base font-bold text-[var(--foreground)]/80">
+                                      {priceDisplay.amount}
+                                      <span className="text-sm font-medium text-[var(--foreground)]/50"> / {priceDisplay.period}</span>
+                                    </p>
+                                  )}
                                 </div>
                               </div>
                               <div className="flex items-center gap-4">
@@ -309,7 +326,12 @@ export default function BookingPage() {
                       <p className="text-[var(--foreground)]/60 mt-1">{selectedFloor} • {selectedSpaceDetails?.label}</p>
                     </div>
                     <div className="text-right">
-                      <span className="text-3xl font-serif font-bold text-[var(--foreground)]">{selectedSpaceDetails?.price}</span>
+                      {selectedPriceDisplay && (
+                        <div className="flex items-baseline justify-end gap-1">
+                          <span className="text-3xl font-serif font-bold text-[var(--foreground)]">{selectedPriceDisplay.amount}</span>
+                          <span className="text-base text-[var(--foreground)]/50 font-medium">/ {selectedPriceDisplay.period}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="space-y-4 text-sm">
@@ -320,6 +342,10 @@ export default function BookingPage() {
                     <div className="flex justify-between">
                       <span className="text-[var(--foreground)]/60">Move out</span>
                       <span className="font-semibold text-[var(--foreground)]">30 Jun 2027</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-[var(--foreground)]/60">Payment plan</span>
+                      <span className="font-semibold text-[var(--foreground)]">Monthly instalments</span>
                     </div>
                     <div className="flex justify-between pt-4 border-t border-[var(--foreground)]/10">
                       <span className="font-bold text-[var(--foreground)] text-base">Deposit Due Now</span>
@@ -334,6 +360,15 @@ export default function BookingPage() {
             {!isComplete && currentStep === 5 && (
               <motion.div key="step5" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex-1">
                 <h2 className="text-2xl font-serif font-semibold mb-6 text-[var(--foreground)]">Payment</h2>
+
+                <div className="bg-[var(--color-soft-gold)]/10 border border-[var(--color-soft-gold)]/30 rounded-2xl p-5 mb-8">
+                  <p className="text-sm font-bold text-[var(--foreground)] mb-1">Payment plan</p>
+                  <p className="text-lg font-serif font-semibold text-[var(--foreground)]">Monthly instalments</p>
+                  <p className="text-sm text-[var(--foreground)]/60 mt-2">
+                    UK bookings are billed monthly only. Rent is charged on the 1st of each month for the duration of your tenancy.
+                  </p>
+                </div>
+
                 <div className="flex gap-4 mb-8">
                   <div className="flex-1 bg-[var(--background)] border-2 border-[var(--color-soft-gold)] rounded-xl p-4 flex items-center justify-center gap-2 cursor-pointer shadow-sm">
                     <CreditCard className="w-5 h-5 text-[var(--color-soft-gold)]" />

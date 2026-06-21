@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Star, MapPin, Heart, Share2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { getPriceDisplay } from "@/lib/pricing";
 
 interface PropertyProps {
   property: {
@@ -11,7 +12,7 @@ interface PropertyProps {
     title: string;
     city: string;
     country: string;
-    price: string;
+    price: number;
     rating: number;
     availableBeds: number;
     tags: string[];
@@ -21,6 +22,7 @@ interface PropertyProps {
 }
 
 export default function PropertyCard({ property }: PropertyProps) {
+  const { amount, period } = getPriceDisplay(property.price, property.country);
   // Use a placeholder image for now
   const imageSrc = property.images[0] || "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80";
 
@@ -98,7 +100,8 @@ export default function PropertyCard({ property }: PropertyProps) {
             <div>
               <span className="text-[10px] font-bold text-[var(--foreground)]/40 uppercase tracking-widest block mb-0.5">Starting from</span>
               <div className="flex items-baseline gap-1">
-                <span className="text-xl font-serif font-bold text-[var(--foreground)]">{property.price}</span>
+                <span className="text-xl font-serif font-bold text-[var(--foreground)]">{amount}</span>
+                <span className="text-sm text-[var(--foreground)]/50 font-medium">/ {period}</span>
               </div>
             </div>
             

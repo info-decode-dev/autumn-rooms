@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Globe, MessageCircle, Camera, Briefcase } from "lucide-react";
 
 export default function Footer() {
@@ -7,8 +8,14 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="md:col-span-1">
-            <Link href="/" className="font-serif text-2xl font-semibold tracking-wide mb-6 block text-white">
-              Autumn Rooms
+            <Link href="/" className="inline-block mb-6">
+              <Image
+                src="/images/logo-with-text.png"
+                alt="Autumn Rooms"
+                width={200}
+                height={52}
+                className="h-12 w-auto object-contain"
+              />
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
               A premium luxury accommodation platform finding your perfect living space abroad. Experience scandinavian minimalism combined with modern convenience.

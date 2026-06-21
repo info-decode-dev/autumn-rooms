@@ -9,6 +9,15 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import propertiesData from "@/data/properties.json";
+import propertyReviewsData from "@/data/property-reviews.json";
+import { getPriceDisplay } from "@/lib/pricing";
+
+type PropertyReview = {
+  author: string;
+  rating: number;
+  date: string;
+  comment: string;
+};
 
 // Mock FAQ Component
 const FAQItem = ({ question, answer }: { question: string, answer: string }) => {
@@ -38,10 +47,31 @@ const FAQItem = ({ question, answer }: { question: string, answer: string }) => 
   );
 };
 
+const StarRating = ({ rating }: { rating: number }) => (
+  <div className="flex items-center gap-0.5">
+    {Array.from({ length: 5 }, (_, i) => (
+      <Star
+        key={i}
+        className={`w-4 h-4 ${
+          i < rating
+            ? "text-[var(--color-soft-gold)] fill-[var(--color-soft-gold)]"
+            : "text-[var(--foreground)]/15"
+        }`}
+      />
+    ))}
+  </div>
+);
+
 export default function PropertyDetailsPage() {
   const params = useParams();
   const propertyId = params.id as string;
   const property = propertiesData.find(p => p.id === propertyId) || propertiesData[0];
+  const { amount, period } = getPriceDisplay(property.price, property.country);
+  const reviews = (propertyReviewsData as Record<string, PropertyReview[]>)[property.id] ?? [];
+  const reviewAverage =
+    reviews.length > 0
+      ? (reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length).toFixed(1)
+      : property.rating.toFixed(1);
 
   const imageSrc1 = property.images[0] || "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80";
   const imageSrc2 = property.images[1] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80";
@@ -56,7 +86,7 @@ export default function PropertyDetailsPage() {
         <div className="flex items-center gap-2 text-sm text-[var(--foreground)]/60 font-medium">
           <Link href="/" className="hover:text-[var(--color-soft-gold)] transition-colors">Home</Link>
           <ChevronRight className="w-4 h-4" />
-          <Link href="/search" className="hover:text-[var(--color-soft-gold)] transition-colors">{property.country}</Link>
+          <Link href={`/search?country=${encodeURIComponent(property.country)}`} className="hover:text-[var(--color-soft-gold)] transition-colors">{property.country}</Link>
           <ChevronRight className="w-4 h-4" />
           <span className="text-[var(--foreground)] font-semibold">{property.title}</span>
         </div>
@@ -220,6 +250,41 @@ export default function PropertyDetailsPage() {
               </div>
             </div>
 
+            {/* Student Reviews */}
+            <div className="border-t border-[var(--foreground)]/10 py-10">
+              <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+                <div>
+                  <h3 className="font-serif text-2xl font-bold text-[var(--foreground)]">Student Reviews</h3>
+                  <p className="text-[var(--foreground)]/60 mt-1">
+                    {reviews.length} {reviews.length === 1 ? "review" : "reviews"} from verified residents
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 bg-[var(--foreground)]/5 px-4 py-2 rounded-full border border-[var(--color-soft-gold)]/30">
+                  <Star className="w-5 h-5 text-[var(--color-soft-gold)] fill-[var(--color-soft-gold)]" />
+                  <span className="font-bold text-[var(--foreground)]">{reviewAverage}</span>
+                  <span className="text-[var(--foreground)]/50 text-sm">/ 5.0</span>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                {reviews.map((review) => (
+                  <div
+                    key={`${review.author}-${review.date}`}
+                    className="bg-white dark:bg-zinc-900 rounded-2xl border border-[var(--foreground)]/10 p-6 shadow-sm"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
+                      <div>
+                        <p className="font-bold text-[var(--foreground)]">{review.author}</p>
+                        <p className="text-sm text-[var(--foreground)]/50">{review.date}</p>
+                      </div>
+                      <StarRating rating={review.rating} />
+                    </div>
+                    <p className="text-[var(--foreground)]/80 leading-relaxed">{review.comment}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {/* FAQs */}
             <div className="border-t border-[var(--foreground)]/10 py-10">
               <h3 className="font-serif text-2xl font-bold mb-6 text-[var(--foreground)]">Frequently Asked Questions</h3>
@@ -250,9 +315,9 @@ export default function PropertyDetailsPage() {
             <div className="bg-white dark:bg-zinc-900 rounded-3xl p-8 shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-[var(--foreground)]/10 sticky top-32">
               <div className="mb-6">
                 <span className="text-sm text-[var(--foreground)]/60 uppercase tracking-widest font-bold block mb-2">Starting from</span>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-serif font-bold text-[var(--foreground)]">{property.price}</span>
-                  <span className="text-[var(--foreground)]/50 font-medium">/ week</span>
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-4xl font-serif font-bold text-[var(--foreground)]">{amount}</span>
+                  <span className="text-base text-[var(--foreground)]/50 font-medium">/ {period}</span>
                 </div>
               </div>
 

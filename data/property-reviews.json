@@ -1,0 +1,58 @@
+{
+  "prop-1": [
+    {
+      "author": "Emma L.",
+      "rating": 5,
+      "date": "Feb 2026",
+      "comment": "Brilliant location just minutes from campus. The room was spotless on move-in day and the team sorted a maintenance request within hours."
+    },
+    {
+      "author": "James K.",
+      "rating": 4,
+      "date": "Jan 2026",
+      "comment": "Love the cinema room and study lounges. Bills included makes budgeting so much easier as an international student."
+    }
+  ],
+  "prop-2": [
+    {
+      "author": "Sophie R.",
+      "rating": 5,
+      "date": "Mar 2026",
+      "comment": "Minimalist design with everything you need. The rooftop terrace is perfect for relaxing after lectures."
+    },
+    {
+      "author": "Lucas M.",
+      "rating": 5,
+      "date": "Dec 2025",
+      "comment": "Bike storage and fast Wi-Fi were big wins for me. Berlin feels very accessible from here."
+    }
+  ],
+  "prop-3": [
+    {
+      "author": "Olivia T.",
+      "rating": 5,
+      "date": "Feb 2026",
+      "comment": "Pool and gym are well maintained. Great social atmosphere without being too noisy during exam season."
+    },
+    {
+      "author": "Noah P.",
+      "rating": 4,
+      "date": "Jan 2026",
+      "comment": "Spacious common areas and friendly resident advisors. Short walk to public transport made commuting easy."
+    }
+  ],
+  "prop-4": [
+    {
+      "author": "Aoife B.",
+      "rating": 5,
+      "date": "Mar 2026",
+      "comment": "Feels very secure and the study pods are ideal for group projects. Dublin city centre is right on the doorstep."
+    },
+    {
+      "author": "Daniel W.",
+      "rating": 4,
+      "date": "Feb 2026",
+      "comment": "Rooftop lounge has amazing views. Monthly billing was straightforward and the team answered all my visa questions."
+    }
+  ]
+}

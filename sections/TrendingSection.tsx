@@ -16,7 +16,7 @@ export default function TrendingSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-24 bg-[var(--background)] overflow-hidden">
+    <section id="trending" ref={ref} className="py-24 bg-[var(--background)] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="flex justify-between items-end mb-12">
           <motion.div

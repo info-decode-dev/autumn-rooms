@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Globe, User, Search } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -19,16 +20,25 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
   const navLinks = [
-    { name: "Destinations", href: "/search" },
+    { name: "Destinations", href: "/destinations" },
     { name: "Properties", href: "/properties" },
     { name: "How it Works", href: "/how-it-works" },
     { name: "Blog", href: "/blog" },
   ];
 
   const isHomePage = pathname === '/';
+  const useLightLogo = (!isScrolled && isHomePage) || isMobileMenuOpen;
   // Text is white on home page (due to dark hero) or if mobile menu is open. Otherwise, adapt to theme.
-  const textColor = (!isScrolled && isHomePage) || isMobileMenuOpen 
+  const textColor = useLightLogo
     ? "text-white" 
     : "text-[var(--foreground)]";
 
@@ -49,10 +59,15 @@ export default function Navbar() {
         }`}
       >
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 z-50">
-          <span className={`font-serif text-2xl font-semibold tracking-wide transition-colors ${textColor}`}>
-            Autumn Rooms
-          </span>
+        <Link href="/" className="flex items-center z-50">
+          <Image
+            src="/images/logo-with-text.png"
+            alt="Autumn Rooms"
+            width={200}
+            height={52}
+            priority
+            className="h-11 w-auto object-contain"
+          />
         </Link>
 
         {/* Desktop Links */}
@@ -70,12 +85,12 @@ export default function Navbar() {
 
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-6">
-          <button className={`hover:text-[var(--color-soft-gold)] transition-colors ${textColor}`}>
+          <Link href="/search" className={`hover:text-[var(--color-soft-gold)] transition-colors ${textColor}`}>
             <Globe className="w-5 h-5" />
-          </button>
-          <button className={`hover:text-[var(--color-soft-gold)] transition-colors ${textColor}`}>
+          </Link>
+          <Link href="/search" className={`hover:text-[var(--color-soft-gold)] transition-colors ${textColor}`}>
             <Search className="w-5 h-5" />
-          </button>
+          </Link>
           <Link
             href="/dashboard"
             className="flex items-center gap-2 bg-[var(--color-soft-gold)] text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-md hover:shadow-lg hover:opacity-90 transition-all transform hover:-translate-y-0.5"
@@ -102,8 +117,29 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: "-100%" }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 bg-[var(--color-charcoal-black)] z-40 flex flex-col justify-center items-center gap-8"
+            className="fixed inset-0 bg-[var(--color-charcoal-black)] z-[60] flex flex-col md:hidden"
           >
+            <div className="flex items-center justify-between px-6 pt-6 pb-4 shrink-0">
+              <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center">
+                <Image
+                  src="/images/logo-with-text.png"
+                  alt="Autumn Rooms"
+                  width={200}
+                  height={52}
+                  className="h-11 w-auto object-contain"
+                />
+              </Link>
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen(false)}
+                aria-label="Close menu"
+                className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="flex-1 flex flex-col justify-center items-center gap-8 px-6 pb-12">
             {navLinks.map((link, i) => (
               <motion.div
                 key={link.name}
@@ -126,9 +162,9 @@ export default function Navbar() {
               transition={{ delay: 0.7 }}
               className="flex gap-6 mt-8"
             >
-              <button className="text-white hover:text-[var(--color-soft-gold)] transition-colors">
+              <Link href="/search" onClick={() => setIsMobileMenuOpen(false)} className="text-white hover:text-[var(--color-soft-gold)] transition-colors">
                 <Globe className="w-6 h-6" />
-              </button>
+              </Link>
               <Link
                 href="/dashboard"
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -137,6 +173,7 @@ export default function Navbar() {
                 Sign In
               </Link>
             </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
